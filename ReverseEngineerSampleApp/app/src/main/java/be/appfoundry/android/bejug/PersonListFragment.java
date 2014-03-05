@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import be.appfoundry.android.bejug.dummy.DummyContent;
+import be.appfoundry.android.bejug.dummy.DummyData;
 
 /**
  * A list fragment representing a list of Persons. This fragment
@@ -15,14 +15,14 @@ import be.appfoundry.android.bejug.dummy.DummyContent;
  * 'activated' state upon selection. This helps indicate which item is
  * currently being viewed in a {@link PersonDetailFragment}.
  * <p>
- * Activities containing this fragment MUST implement the {@link Callbacks}
+ * Activities containing this fragment MUST implement the {@link PersonSelectedCallback}
  * interface.
  */
 public class PersonListFragment extends ListFragment {
 
     /**
      * The serialization (saved instance state) Bundle key representing the
-     * activated item position. Only used on tablets.
+     * activated person position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
@@ -30,32 +30,32 @@ public class PersonListFragment extends ListFragment {
      * The fragment's current callback object, which is notified of list item
      * clicks.
      */
-    private Callbacks mCallbacks = sDummyCallbacks;
+    private PersonSelectedCallback mPersonSelectedCallback = sDummyPersonSelectedCallback;
 
     /**
-     * The current activated item position. Only used on tablets.
+     * The current activated person position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
     /**
      * A callback interface that all activities containing this fragment must
-     * implement. This mechanism allows activities to be notified of item
+     * implement. This mechanism allows activities to be notified of person
      * selections.
      */
-    public interface Callbacks {
+    public interface PersonSelectedCallback {
         /**
-         * Callback for when an item has been selected.
+         * Callback for when a person has been selected.
          */
-        public void onItemSelected(String id);
+        public void onPersonSelected(String id);
     }
 
     /**
-     * A dummy implementation of the {@link Callbacks} interface that does
+     * A dummy implementation of the {@link PersonSelectedCallback} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
      */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
+    private static PersonSelectedCallback sDummyPersonSelectedCallback = new PersonSelectedCallback() {
         @Override
-        public void onItemSelected(String id) {
+        public void onPersonSelected(String id) {
         }
     };
 
@@ -70,12 +70,9 @@ public class PersonListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        PersonAdapter adapter = new PersonAdapter(getActivity(), DummyData.PERSONS);
+        setListAdapter(adapter);
+
     }
 
     @Override
@@ -94,11 +91,11 @@ public class PersonListFragment extends ListFragment {
         super.onAttach(activity);
 
         // Activities containing this fragment must implement its callbacks.
-        if (!(activity instanceof Callbacks)) {
+        if (!(activity instanceof PersonSelectedCallback)) {
             throw new IllegalStateException("Activity must implement fragment's callbacks.");
         }
 
-        mCallbacks = (Callbacks) activity;
+        mPersonSelectedCallback = (PersonSelectedCallback) activity;
     }
 
     @Override
@@ -106,7 +103,7 @@ public class PersonListFragment extends ListFragment {
         super.onDetach();
 
         // Reset the active callbacks interface to the dummy implementation.
-        mCallbacks = sDummyCallbacks;
+        mPersonSelectedCallback = sDummyPersonSelectedCallback;
     }
 
     @Override
@@ -114,8 +111,8 @@ public class PersonListFragment extends ListFragment {
         super.onListItemClick(listView, view, position, id);
 
         // Notify the active callbacks interface (the activity, if the
-        // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        // fragment is attached to one) that a person has been selected.
+        mPersonSelectedCallback.onPersonSelected(DummyData.PERSONS.get(position).id);
     }
 
     @Override

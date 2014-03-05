@@ -18,11 +18,11 @@ import android.support.v4.app.FragmentActivity;
  * (if present) is a {@link PersonDetailFragment}.
  * <p>
  * This activity also implements the required
- * {@link PersonListFragment.Callbacks} interface
+ * {@link PersonListFragment.PersonSelectedCallback} interface
  * to listen for item selections.
  */
 public class PersonListActivity extends FragmentActivity
-        implements PersonListFragment.Callbacks {
+        implements PersonListFragment.PersonSelectedCallback {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -49,21 +49,20 @@ public class PersonListActivity extends FragmentActivity
                     .setActivateOnItemClick(true);
         }
 
-        // TODO: If exposing deep links into your app, handle intents here.
     }
 
     /**
-     * Callback method from {@link PersonListFragment.Callbacks}
+     * Callback method from {@link be.appfoundry.android.bejug.PersonListFragment.PersonSelectedCallback}
      * indicating that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onPersonSelected(String id) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(PersonDetailFragment.ARG_ITEM_ID, id);
+            arguments.putString(PersonDetailFragment.ARG_PERSON_ID, id);
             PersonDetailFragment fragment = new PersonDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -74,7 +73,7 @@ public class PersonListActivity extends FragmentActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, PersonDetailActivity.class);
-            detailIntent.putExtra(PersonDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(PersonDetailFragment.ARG_PERSON_ID, id);
             startActivity(detailIntent);
         }
     }

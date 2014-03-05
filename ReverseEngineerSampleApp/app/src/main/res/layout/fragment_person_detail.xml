@@ -1,9 +1,104 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/person_detail"
-    style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="be.appfoundry.android.bejug.PersonDetailFragment" />
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/sheldon_cooper">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:layout_gravity="center_horizontal|top"
+                android:src="@drawable/sheldon_cooper"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:id="@+id/characterName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Sheldon Cooper"
+                android:layout_below="@id/imageView"
+                android:padding="8dp"/>
+
+            <LinearLayout
+                android:id="@+id/professionRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/characterName"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Profession:"
+                    android:gravity="right"/>
+
+                <Space
+                    android:layout_height="2dp"
+                    android:layout_width="10dp"/>
+
+                <TextView
+                    android:id="@+id/profession"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="theoretical physicist"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/realNameRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/professionRow"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Real name:"
+                    android:gravity="right"/>
+
+                <Space
+                    android:layout_height="2dp"
+                    android:layout_width="10dp"/>
+
+                <TextView
+                    android:id="@+id/realname"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Jim Parsons"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/personDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:layout_below="@id/realNameRow"
+                android:padding="8dp"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+</LinearLayout>
